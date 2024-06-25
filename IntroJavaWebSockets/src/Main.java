@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.http.WebSocket;
@@ -12,5 +14,9 @@ public class Main {
 
         Socket soc = serverSocket.accept();
 
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(soc.getInputStream()));
+
+        String str = reader.readLine();
     }
 }
