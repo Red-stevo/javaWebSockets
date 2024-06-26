@@ -1,7 +1,21 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket("192.168.0.125", 8080);
 
+        PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
+
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Data : ");
+        String data = bufferedReader.readLine();
+
+        printWriter.println(data);
     }
 }
