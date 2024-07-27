@@ -26,23 +26,25 @@ public class HandleNewConnection implements Runnable{
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             username = bufferedReader.readLine();
-            broadCastMessage("SERVER: "+ username.toUpperCase()+" joined the chat.");
-        } catch (IOException e) {
+            newConnections.add(this);
+            broadCastMessage("SERVER: "+ username+" joined the chat.");
+        } catch (Exception e) {
             handleExceptions(bufferedReader, bufferedWriter, socket);
         }
-        newConnections.add(this);
+
     }
 
     private void broadCastMessage(String message) {
         for (HandleNewConnection handleNewConnection : newConnections) {
-            System.out.println(handleNewConnection.getUsername());
-            if (!handleNewConnection.getUsername().equals(this.username)) {
+
+            if (!username.equals(handleNewConnection.getUsername())) {
                 try {
-                    bufferedWriter.write(message);
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                } catch (IOException e) {
-                    handleExceptions(this.bufferedReader, this.bufferedWriter, this.socket);
+                    handleNewConnection.bufferedWriter.write(message);
+                    handleNewConnection.bufferedWriter.newLine();
+                    handleNewConnection.bufferedWriter.flush();
+                } catch (Exception e) {
+                    handleExceptions(bufferedReader, bufferedWriter, socket);
+                    break;
                 }
             }
         }
@@ -55,13 +57,15 @@ public class HandleNewConnection implements Runnable{
             try {
                 clientMessage = bufferedReader.readLine();
                 broadCastMessage(clientMessage);
-            } catch (IOException e) {
-                handleExceptions(this.bufferedReader, this.bufferedWriter, this.socket);
+            } catch (Exception e) {
+                handleExceptions(bufferedReader, bufferedWriter, socket);
                 break;
             }
     }
 
+
     private void handleChatLeave(){
+        newConnections.remove(this);
         broadCastMessage(this.username+"left the chat room!");
     }
 
@@ -74,8 +78,18 @@ public class HandleNewConnection implements Runnable{
 
             if(reader != null) reader.close();
 
-        } catch (IOException e) {
+        } catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
 }
+
+
+
+
+
+
+
+
+
+

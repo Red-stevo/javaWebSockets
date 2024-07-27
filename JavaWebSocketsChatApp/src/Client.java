@@ -17,7 +17,13 @@ public class Client {
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        } catch (IOException e) {
+            this.chatUsername = chatUsername;
+
+            bufferedWriter.write(chatUsername);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+
+        } catch (Exception e) {
             handleExceptions(this.bufferedWriter, this.bufferedReader, this.socket);
         }
     }
@@ -40,9 +46,9 @@ public class Client {
             try {
                 while (socket.isConnected()){
                     String message = bufferedReader.readLine();
-                    System.out.println(message);
+                    System.out.println("\t\t\t"+message);
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 handleExceptions(this.bufferedWriter, this.bufferedReader, this.socket);
             }
         }
@@ -53,12 +59,9 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
         Thread thread = new Thread(() -> {
             try {
-                bufferedWriter.write(chatUsername);
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
 
                 while (socket.isConnected()){
-                    System.out.print(">: ");
+                    //System.out.print(">: ");
                     String message = scanner.nextLine();
 
                     bufferedWriter.write(this.chatUsername+" : "+message);
@@ -81,7 +84,7 @@ public class Client {
 
             if(socket != null) socket.close();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

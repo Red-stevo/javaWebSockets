@@ -20,10 +20,10 @@ public class ChatServer {
                 HandleNewConnection handleNewConnection = new HandleNewConnection(socket);
                 Thread thread = new Thread(handleNewConnection);
                 thread.start();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 try {
                    if(serverSocket != null) serverSocket.close();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     System.out.println(ex.getMessage());
                 }
                 break;

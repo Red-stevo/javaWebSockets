@@ -9,7 +9,7 @@ public class Main {
             ServerSocket socket = new ServerSocket(8880);
             chatServer = new ChatServer(socket);
             chatServer.handleServer();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
