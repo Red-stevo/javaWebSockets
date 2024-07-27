@@ -61,14 +61,13 @@ public class Client {
                     System.out.print(">: ");
                     String message = scanner.nextLine();
 
-                    bufferedWriter.write("Username : "+message);
+                    bufferedWriter.write(this.chatUsername+" : "+message);
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                 }
             } catch (IOException e) {
                 handleExceptions(this.bufferedWriter, this.bufferedReader, this.socket);
             }
-
         });
         thread.start();
     }

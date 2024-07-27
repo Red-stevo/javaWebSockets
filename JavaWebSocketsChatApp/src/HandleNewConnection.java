@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+
 public class HandleNewConnection implements Runnable{
 
     private final Socket socket;
@@ -27,7 +28,7 @@ public class HandleNewConnection implements Runnable{
 
     private void broadCastMessage(String message){
         for(HandleNewConnection handleNewConnection : newConnections)
-            if(!handleNewConnection.username.equals(this.username)){
+            if(!handleNewConnection.username.equals(username)){
                 try {
                     bufferedWriter.write(message);
                     bufferedWriter.newLine();
