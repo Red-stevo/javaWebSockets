@@ -8,6 +8,7 @@ public class Main {
         try {
             ServerSocket socket = new ServerSocket(8880);
             chatServer = new ChatServer(socket);
+            chatServer.handleServer();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
