@@ -27,7 +27,7 @@ public class HandleNewConnection implements Runnable{
 
     private void broadCastMessage(String message){
         for(HandleNewConnection handleNewConnection : newConnections)
-            if(handleNewConnection.username.compareTo(this.username) != 0){
+            if(!handleNewConnection.username.equals(this.username)){
                 try {
                     bufferedWriter.write(message);
                     bufferedWriter.newLine();
