@@ -1,8 +1,14 @@
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-
+@Data
+@Setter
+@Getter
 public class HandleNewConnection implements Runnable{
 
     private final Socket socket;
@@ -11,6 +17,7 @@ public class HandleNewConnection implements Runnable{
     private BufferedWriter bufferedWriter;
 
     private static final ArrayList<HandleNewConnection> newConnections = new ArrayList<>();
+
     private String username;
 
     public HandleNewConnection(Socket socket) {
@@ -26,9 +33,10 @@ public class HandleNewConnection implements Runnable{
         newConnections.add(this);
     }
 
-    private void broadCastMessage(String message){
-        for(HandleNewConnection handleNewConnection : newConnections)
-            if(!handleNewConnection.username.equals(username)){
+    private void broadCastMessage(String message) {
+        for (HandleNewConnection handleNewConnection : newConnections) {
+            System.out.println(handleNewConnection.getUsername());
+            if (!handleNewConnection.getUsername().equals(this.username)) {
                 try {
                     bufferedWriter.write(message);
                     bufferedWriter.newLine();
@@ -36,9 +44,9 @@ public class HandleNewConnection implements Runnable{
                 } catch (IOException e) {
                     handleExceptions(this.bufferedReader, this.bufferedWriter, this.socket);
                 }
+            }
         }
     }
-
 
     @Override
     public void run() {
