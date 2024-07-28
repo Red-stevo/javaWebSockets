@@ -66,7 +66,7 @@ public class HandleNewConnection implements Runnable{
 
     private void handleChatLeave(){
         newConnections.remove(this);
-        broadCastMessage(this.username+"left the chat room!");
+        broadCastMessage(this.username+" left the chat room!");
     }
 
     private void handleExceptions(BufferedReader reader,BufferedWriter writer, Socket soc) {
